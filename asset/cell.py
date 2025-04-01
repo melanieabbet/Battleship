@@ -33,54 +33,24 @@ class Content(Enum):
 
 
 class Cell:
-    def __init__(self, address, content=Content.EMPTY):
-        self.address = address
+    def __init__(self, content=Content.EMPTY):
+        # self.address = address
         self.content = content
 
 
     def __str__(self):
         '''override methode to print a cell'''
         if self.content == Content.EMPTY:
-            return f"[ ]"
+            #return f" · "
+            return f" □ "
         elif self.content == Content.BOAT:
-            return f"[B]"
+            return f" □ "
         elif self.content == Content.HIT:
             return f"[X]"
         elif self.content == Content.MISS:
             return f"[O]"
 
-
-class Address:
-
-    def __init__(self, column, row):
-        '''The adress is a grid coordinate
-
-        '''
-        self.column = Address.set_column(column)
-        self.row = row+1
         
-    @staticmethod
-    def set_column(index):
-        '''
-        @brief method that give the column "name" from the column index
-
-        @detail static method that generate a column name from the index number
-
-        @param column index
-
-        @return string of column name
-        '''
-        alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-        #TODO error for size too large
-        
-        if mult:=index//26:
-            index -= 26*mult
-            column = alphabet[mult]+alphabet[index%26]
-        else:
-            column= alphabet[index%26]
-
-        return column
     
     
     
