@@ -41,8 +41,7 @@ class Cell:
     def __str__(self):
         '''override methode to print a cell'''
         if self.content == Content.EMPTY:
-            #return f" · "
-            return f" □ "
+            return f" · "
         elif self.content == Content.BOAT:
             return f" □ "
         elif self.content == Content.HIT:
