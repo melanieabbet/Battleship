@@ -1,32 +1,21 @@
 '''execution module to test as a playground'''
-
-from asset import Grid
-from asset import Boat
-from asset import Coordinate
-import os
-
-def cls():
-    '''
-    @brief function that clean the terminal
-    '''
-    os.system('cls' if os.name=='nt' else 'clear')
-    print("")
+import time
+from gameplay import Player
 
 
 
 
 if __name__ =="__main__":
+    player = Player("nom")
+    player.set_boat()
 
-    cls()
-    
-    grid = Grid(9)
-    # print(grid)
-    boat = Boat([grid[Coordinate("G5")], grid[Coordinate("F5")], grid[Coordinate("E5")]])
-    cls()
-    print(grid)
+    while True:
+        player.terminal.clear()
+        print(player.grid)
+        c = player.terminal.get_coordinate(player.grid)
+        player.terminal.clear()
+        player.shoot(player.grid, c)
+        print(player.grid)
+        time.sleep(5)
 
-    grid.shoot_at(Coordinate("B1"))
-    
-    cls()
-    print(grid)
     

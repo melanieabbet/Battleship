@@ -4,7 +4,7 @@ File with the grid Module
 The grid is used as the game board
 '''
 from .cell import Cell, Content
-from .coordinate import Coordinate
+from .coordinate import Coordinate, CoordinateOutOfBound
 
 class Grid:
 
@@ -24,12 +24,11 @@ class Grid:
         return self.size
     
     def __getitem__(self, key):
-        '''key should be an address'''
-        #TODO should check isinstance
-        try:    
+
+        if key in self.grid.keys():   
             return self.grid[key]
-        except:
-            raise ValueError("Item not found")
+        else:
+            raise CoordinateOutOfBound("Item not in grid")
 
     
     def __iter__(self):
@@ -49,7 +48,7 @@ class Grid:
 
         return_string = "[\]"
         #Header
-        return_string+= "".join([f"[{Coordinate.set_column(i)}]" for i in range(self.size)])
+        return_string+= "".join([f"[{Coordinate.letter_from_index(i)}]" for i in range(self.size)])
         return_string+="\n"
 
         row =1

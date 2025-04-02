@@ -7,12 +7,12 @@
 >>> d = Coordinate("#3") # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 [...]
-Exception: ('#3',) can not creat a Coordinate
+CoordinateException: ('#3',) can not creat a Coordinate
 
 >>> d = Coordinate("3a") # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 [...]
-Exception: ('#3',) can not creat a Coordinate
+CoordinateException: ('#3',) can not creat a Coordinate
 
 #repr
 >>> print(a)
@@ -42,6 +42,31 @@ True
 >>> print(test_list)
 [G5, H5, B7]
 
+#convertion
+>>> print(Coordinate.index_from_letter("B"))
+1
+>>> print(Coordinate.index_from_letter("AA"))
+26
+>>> print(Coordinate.letter_from_index(26))
+AA
+
+#test outofbound and navigate
+e = Coordinate(0,0)
+>>> print(e)
+A1
+>>> print(e.right())
+B1
+>>> print(e.down())
+A2
+>>> e.up()
+Traceback (most recent call last):
+[...]
+CoordinateOutOfBound: out of bound
+>>> e.left()
+Traceback (most recent call last):
+[...]
+CoordinateOutOfBound: out of bound
+
 '''
 
 import re
@@ -60,14 +85,15 @@ class Coordinate:
 
         @param can be a string or two number
         '''
-        e = Exception(f"{args} can not creat a Coordinate")
+        e = CoordinateException(f"{args} can not creat a Coordinate")
 
         if len(args)==1:
             #Args must be a string
-            if out:= Coordinate.coordinate_from_string(args[0]):
+            if out:= self.coordinate_from_string(args[0]):
                 column, row = out #unpack
                 self.column = column
                 self.row = row
+                self.check()
             else:
                 raise e
 
@@ -77,20 +103,68 @@ class Coordinate:
             column = args[0]
             row = args[1]
 
-            self.column = Coordinate.set_column(column)
-            self.row = row+1
+            self.column = column
+            self.row = row
+            self.check()
         else:
             raise e
+
+    
+    def coordinate_from_string(self,test_string):
+        '''
+        @brief return the column and row if the string respect the format
+
+        @detail convert with regex the input string as a column and row formated for the class creation
+                If the string do not mach an expected format (lettre+number)
+                    -> The value None is returned
+        '''
+        if isinstance(test_string, str):
+            pattern = r"^([A-Za-z]+)(\d+)$" #made with chatGpt
+            match = re.match(pattern, test_string)
+            if match:
+                column = match.group(1).upper()
+                column = Coordinate.index_from_letter(column)
+                row = int(match.group(2))
+                return column, row-1
+            
+        return None
+    
+        
+    def right(self):
+        column = self.column+1
+        row = self.row
+        return Coordinate(column, row)
+  
+    def left(self):
+        column = self.column-1
+        row = self.row
+        return Coordinate(column, row)
+    
+    def up(self):
+        column = self.column
+        row = self.row-1
+        return Coordinate(column, row)
+    
+    def down(self):
+        column = self.column
+        row = self.row+1
+        return Coordinate(column, row)
+    
+    def check(self):
+        '''
+        @brief check if the coordinate is valid
+        '''
+        if self.column<0 or self.row<0:
+            raise CoordinateOutOfBound("out of bound")
 
     # ---------------------------------------------
     # Special mehodes
     # ---------------------------------------------
-
     def __repr__(self):
         '''
         @ brief special methode to rpint the class instance
         '''
-        return f"{self.column}{self.row}"
+        return f"{Coordinate.letter_from_index(self.column)}{self.row+1}"
     
 
     def __hash__(self):
@@ -119,38 +193,28 @@ class Coordinate:
 
     
     @staticmethod
-    def is_aligned(a, b):
+    def is_suite(*args):
         '''
         @brief return true if both coordinate ar aligned
         '''
-        if isinstance(a, Coordinate) and isinstance(b, Coordinate):
-            if a.column==b.column or a.row == b.row:
-                return True
-        return False
+        try:
+            test_list = list(*args)
+            test_list.sort()
 
-    
-    @staticmethod
-    def coordinate_from_string(test_string):
-        '''
-        @brief return the column and row if the string respect the format
-
-        @detail convert with regex the input string as a column and row formated for the class creation
-                If the string do not mach an expected format (lettre+number)
-                    -> The value None is returned
-        '''
-        if isinstance(test_string, str):
-            pattern = r"^([A-Za-z]+)(\d+)$" #made with chatGpt
-            match = re.match(pattern, test_string)
-            if match:
-                column = match.group(1).upper()
-                row = int(match.group(2))
-                return column, row
+            if test_list[0].right()==test_list[1]:
+                #list is horizontaly aligned
+                return all([test_list[i].right()==test_list[i+1] for i in range(len(test_list)-1)])
             
-        return None
+            elif test_list[0].down()==test_list[1]:
+                return all([test_list[i].down()==test_list[i+1] for i in range(len(test_list)-1)])
+            else:
+                return False
+        except:
+            return False
 
 
     @staticmethod
-    def set_column(index):
+    def letter_from_index(index):
         '''
         @brief method that give the column "name" from the column index
 
@@ -162,23 +226,39 @@ class Coordinate:
         '''
         alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-        #get the size of the string
-        size = 1
-        while 26**size<index:
-            size+=1
-        column =""
+        string = ""
+        while index >= 0:
+            string = alphabet[index % 26] + string 
+            index = (index // 26) - 1
+        
+        return string
+    
+    
+    @staticmethod
+    def index_from_letter(string):
 
-        #base convertion
-        while(size):
-            column+=(alphabet[index%(26**size)])
-            size -=1
+        alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-        return column
+        total = 0
+        for index, char in enumerate(reversed(string)):
+            value = alphabet.index(char) +1
+            total += value * (26 ** index)
+        return total - 1
 
+# ---------------------------------------------
+# Specific Exception
+# ---------------------------------------------
+class CoordinateException(Exception):
+    pass
 
-
+class CoordinateOutOfBound(Exception):
+    pass
+    
 
 if __name__ == '__main__':
-
+    # a = Coordinate(0,0)
+    # b = a.right()
+    # c = a.down()
+    # d = a.up()
     import doctest
     doctest.testmod()
