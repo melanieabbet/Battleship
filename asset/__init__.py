@@ -2,5 +2,6 @@
 from .grid import Grid
 from .cell import Cell, Content
 from .coordinate import Coordinate
+from .boat import Boat
 
 __all__ = ["Grid", "Cell", "Address", "Content"]

@@ -45,9 +45,15 @@ class Cell:
         elif self.content == Content.BOAT:
             return f" □ "
         elif self.content == Content.HIT:
-            return f"[X]"
+            return f" X "
         elif self.content == Content.MISS:
-            return f"[O]"
+            return f" O "
+    
+    def set_boat(self):
+        self.content = Content.BOAT
+
+    def set_hit(self):
+        self.content = Content.HIT
 
         
     

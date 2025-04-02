@@ -3,8 +3,8 @@ File with the grid Module
 
 The grid is used as the game board
 '''
-from asset.cell import Cell
-from asset.coordinate import Coordinate
+from .cell import Cell, Content
+from .coordinate import Coordinate
 
 class Grid:
 
@@ -15,9 +15,9 @@ class Grid:
         self.grid = {}
         for c in range(size):
             for r in range(size):
-                address = Coordinate(c,r)
+                coor = Coordinate(c,r)
                 cell = Cell()
-                self.grid.update({address:cell})
+                self.grid.update({coor:cell})
     
     
     def __len__(self):
@@ -27,13 +27,14 @@ class Grid:
         '''key should be an address'''
         #TODO should check isinstance
         try:    
-            return self.dic[key]
+            return self.grid[key]
         except:
             raise ValueError("Item not found")
+
     
     def __iter__(self):
         #creat sorted list of cell from address
-        self.dic.sorted()
+        self.grid.sorted()
 
 
     
@@ -52,8 +53,8 @@ class Grid:
         return_string+="\n"
 
         row =1
-        #iterate inside the self.grid dictionary
-        for i, key in enumerate(self.grid):
+        #iterate inside the self.grid dictionary sorted by coordinate
+        for i, key in enumerate(sorted(self.grid.keys())):
             #row labels
             if not i%self.size:
                 return_string+=f"[{row}]"
@@ -66,3 +67,9 @@ class Grid:
                 return_string+="\n"
         
         return return_string
+    
+    def shoot_at(self, coor):
+        if cell :=self.grid[coor]:
+            if cell.content == Content.BOAT:
+                cell.set_hit()
+                return True
