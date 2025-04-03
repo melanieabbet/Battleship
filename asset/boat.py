@@ -19,6 +19,11 @@ class Boat:
         return self.size
     
     def set_boat(self, coor_array, grid):
+        '''
+        @brief set the cells
+        
+        @details set the cell as the cell of the grid linked with the coordinate passed
+        '''
 
         if len(coor_array)== self.size:
             for index, coor in enumerate(coor_array):
@@ -27,10 +32,39 @@ class Boat:
 
             self.is_alive = True
     
-    # def set_coordinate(self, a, b):
-    #     if coor_list:= Coordinate.get_coordinate_array(a, b)== len(self):
-    #         for index, coor in enumerate(coor_list):
-    #             self.coordinates[index]=coor
+    def health(self):
+        '''
+        @return the boat HP
+
+        @note maybe redo with the lens of dictionary 
+        and remove the cell each time it is hit
+        '''
+        hp = 0
+        for cell in self.cells:
+            if cell.content == Content.BOAT:
+                hp +=1
+        return hp
+    
+    def sink(self):
+        '''
+        @brief call to kill the Boat
+        '''
+        self.is_alive = False
+    
+    def __lt__(self, other):
+        '''
+        @brief less than so boat can be sorted
+
+        @note the weakest (hp) is the biggest
+                -> so it will be at the end of the list
+        '''
+        if not isinstance(other, Boat):
+            return False
+        else:
+            if self.health()<other.health():
+                return False
+            else:
+                return True
 
 
 
