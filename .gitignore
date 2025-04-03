@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Obsidian vault
+*.Obsidian
+
 # C extensions
 *.so
 
@@ -172,3 +175,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+.obsidian/workspace.json
