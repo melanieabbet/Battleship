@@ -1,4 +1,5 @@
 import socket
+import time
 
 class Client:
     '''
@@ -13,7 +14,12 @@ class Client:
         '''
             server connexion
         '''
-        self.client.connect((self.host,self.port))
+        while True:
+            try:
+                self.client.connect((self.host,self.port))
+            except:
+                time.sleep(1)
+
 
     def send_message(self, message):
         try:
@@ -37,10 +43,11 @@ class Client:
         '''
         self.client.close()
     
-    def run(self):
+    def run(self, ip):
         '''
             Run the client: connect to server and wait for communication
         '''
+        self.host = ip
         self.connect()  # Connect to the server
 
         while True:

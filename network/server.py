@@ -2,7 +2,7 @@ import socket
 import threading
 import time
 from network.client import Client
-from player import Player
+#from player import Player
 from game import GameSession
 
 class Server:
@@ -62,11 +62,12 @@ class Server:
         game_thread = threading.Thread(target=game_session.init_game) # TODO init_game() dans GameSession
         game_thread.start() 
 
-    def run(self):
+    def run(self, ip):
         '''
             Start the server and listen for connections.
         '''
         try:
+            self.host = ip
             self.server.bind((self.host, self.port))
             self.server.listen(0)
             print(f"Listening on {self.host}:{self.port}")
@@ -85,6 +86,12 @@ class Server:
             print(f"Error: {e}")
         # finally:
         #     self.server.close()
+
+    def get_ip(self):
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        print(local_ip)
+        return local_ip
 
 if __name__ == "__main__":
     serv = Server()  # Création de l'instance du serveur

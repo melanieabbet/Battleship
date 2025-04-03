@@ -7,6 +7,18 @@ class Terminal:
     def __init__(self):
         pass
 
+    def get_role(self):
+        while True:
+            s = input("Role?:")
+            if s in ["g", "h"]:
+                return s
+    
+    def get_ip(self):
+        while True:
+            s = input("ip:")
+            return s
+
+
     def get_coordinate(self, grid):
         while True:
             try:

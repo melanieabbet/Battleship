@@ -3,8 +3,10 @@
 
 @brief file that hold the player class and all the logic attached
 '''
+import os
 from asset import Grid, Boat, Content
 from gameplay.terminalHandler import Terminal
+from network import Server, Client, NetRole
 
 class Player:
     '''
@@ -20,6 +22,7 @@ class Player:
         '''
 
         self.name = name
+        self.role = NetRole.NONE
         self.terminal = Terminal()
         self.grid = Grid(9)
 
@@ -30,6 +33,25 @@ class Player:
         # d = Boat(5)
 
         self.fleet = [a, b]
+    
+
+    def set_role(self):
+
+        role = self.terminal.get_role()
+        if role == "h":
+            self.connect = Server()
+            self.role= NetRole.HOST
+        else:
+            self.connect = Client()
+            self.role= NetRole.GUESS
+        
+    def lobby(self):
+        #if self.role == NetRole.HOST:
+            
+        ip =self.terminal.get_ip()
+        self.connect.run(ip)
+
+
 
     def set_boat(self):
         '''
