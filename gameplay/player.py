@@ -4,7 +4,7 @@
 @brief file that hold the player class and all the logic attached
 '''
 import os
-from asset import Grid, Boat, Content
+from asset import Grid, Boat, Content, Coordinate
 from gameplay.terminalHandler import Terminal
 from network import Server, Client, NetRole
 
@@ -48,9 +48,10 @@ class Player:
     def lobby(self):
         #if self.role == NetRole.HOST:
             
-        ip =self.terminal.get_ip()
-        self.connect.run(ip)
-
+        # ip =self.terminal.get_ip()
+        opponent = self.connect.first_connect(self.name)
+        self. opponent = opponent
+        self.terminal.message(f"Your opponent is: {opponent}")
 
 
     def set_boat(self):
@@ -63,13 +64,12 @@ class Player:
         '''
 
         for boat in self.fleet:
-            self.terminal.clear()
-            print(self.grid)
             boat.set_boat(self.terminal.get_coordinate_array(boat.size, self.grid), self.grid)
 
         self.fleet.sort() # so the weakest boat is at the end
         self.terminal.clear()
         print(self.grid)
+
         return True
     
     def shoot(self):
@@ -80,35 +80,64 @@ class Player:
         '''
         return self.terminal.get_coordinate(self.grid)
     
+
+    def round(self, coor):
+        '''
+        @brief round management for the player class
+        
+        @details at each round of the game this method is called to deal
+                with the round data and the game status
+        
+        @param coor Coordinate where the play is shooting at
+        
+        @TODO the result is printed inside the methode
+                -> a terminal method should be called
+        '''
+        #Coordinate to string
+        coor = str(coor)
+        enemy_shoot = self.connect.open_fire(coor)
+
+        #String to Coordinate
+        enemy_shoot = Coordinate(enemy_shoot)
+        enemy_result = self.get_hit(enemy_shoot)
+
+        result = self.connect.round_result(enemy_result)
+        print(f"enemy: {enemy_result} you: {result}")
+        
     
-    def aim(self, coordinate):
+    def get_hit(self, coordinate):
         '''
         @brief result of a shoot at the player grid
 
-        @param coordinate Coordinate wher the shoot aim at
+        @param coordinate Coordinate where the shoot aim at
 
         @return result of the shoot
+
+        @TODO the result is returned as a string, there is something better to do
+
         '''
         cell = self.grid[coordinate]
         if cell.content == Content.BOAT:
             cell.content=Content.HIT
             if len(self.fleet)!= self.check_fleet():
-                print("Boat is sinking")
+
                 if self.gameover():
-                    print("game over")
+                    return "game over"
+                else:
+                    return "Boat is sinking"
                 
             else:
-                print("Hit")
+                return "Hit"
 
         elif cell.content == Content.EMPTY:
             cell.content=Content.MISS
-            print("Missed")
+            return "Missed"
 
         elif cell.content == Content.MISS:
-            print("Still nothing")
+            return "Still nothing"
         
         elif cell.content == Content.HIT:
-            print("better safe than sorry...")
+            return "better safe than sorry..."
 
     def check_fleet(self):
         '''
@@ -126,6 +155,8 @@ class Player:
             self.fleet.pop() #remove last boat
         
         return len(self.fleet)
+    
+
         
     def gameover(self):
         '''
