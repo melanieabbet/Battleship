@@ -9,7 +9,11 @@ class Server (Client):
      
     @details it heritate from the Server class
     '''
-        
+
+    def get_ip(self):
+        hostname = socket.gethostname()
+        ip = socket.gethostbyname(hostname)
+        return ip    
 
     def first_connect(self, player_name):
         '''

@@ -7,6 +7,7 @@ import ipaddress
 import copy
 import time
 import os
+import socket
 
 class Terminal:
 
