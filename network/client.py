@@ -11,15 +11,17 @@ class Client:
         '''
         @brief constructor
         
-        @param host_iP by default the value is the local address
+        @param host_ip by default the value is the local address
         '''
         self.host = host_ip
         self.port = 12345
-
     
+    def set_host(self, host_ip):
+        self.host = host_ip
+
     def connect(self):
         '''
-        @breif connect a new socket to the server
+        @brief connect a new socket to the server
         
         @details is called at every start of discution
         

@@ -2,6 +2,7 @@ from asset import Coordinate, CoordinateException, CoordinateOutOfBound, Content
 import copy
 import time
 import os
+import socket
 
 class Terminal:
 
@@ -12,12 +13,13 @@ class Terminal:
         while True:
             s = input("Role?:")
             if s in ["g", "h"]:
-                return s
-    
-    def get_ip(self):
-        while True:
-            s = input("ip:")
-            return s
+                return s    
+
+    def get_host_ip(self):
+        #TODO gestion erreur
+        s = input("Entrez L'IP de l'hôte: ")
+        print(s)
+        return s
 
 
     def get_coordinate(self, grid, message=None, print_grid = True):

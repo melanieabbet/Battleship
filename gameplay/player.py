@@ -46,11 +46,18 @@ class Player:
             self.role= NetRole.GUESS
         
     def lobby(self):
-        #if self.role == NetRole.HOST:
-            
-        # ip =self.terminal.get_ip()
+
+        if self.role == NetRole.HOST:
+            ip = self.connect.get_ip()
+            self.connect.set_host(ip)
+            self.terminal.message(f"Your IP is:{ip}")
+        
+        else:
+            host_ip = self.terminal.get_host_ip()
+            self.connect.set_host(host_ip)
+         
         opponent = self.connect.first_connect(self.name)
-        self. opponent = opponent
+        self.opponent = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
 
 
