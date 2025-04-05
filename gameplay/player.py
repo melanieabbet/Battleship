@@ -50,7 +50,7 @@ class Player:
         if self.role == NetRole.HOST:
             ip = self.connect.get_ip()
             self.connect.set_host(ip)
-            self.terminal.message(f"Your IP is:{ip}")
+            self.terminal.message(f"Your IP is: {ip}")
         
         else:
             host_ip = self.terminal.get_host_ip()
