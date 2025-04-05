@@ -25,6 +25,7 @@ class Player:
         self.role = NetRole.NONE
         self.terminal = Terminal()
         self.grid = Grid(9)
+        self.opponent_grid = Grid(9)
 
         #boat init
         a = Boat(2)
@@ -51,11 +52,9 @@ class Player:
             ip = self.connect.get_ip()
             self.connect.set_host(ip)
             self.terminal.message(f"Your IP is: {ip}")
-        
         else:
             host_ip = self.terminal.get_host_ip()
             self.connect.set_host(host_ip)
-         
         opponent = self.connect.first_connect(self.name)
         self.opponent = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
@@ -85,6 +84,9 @@ class Player:
         
         @return Coordinate
         '''
+        # self.terminal.message("C'est parti, lançons les hostilités !")
+        # self.terminal.message("Quel sera votre prochain tire?")
+        # self.terminal.print_grid(self.opponent_grid, False)
         return self.terminal.get_coordinate(self.grid)
     
 
@@ -101,17 +103,44 @@ class Player:
                 -> a terminal method should be called
         '''
         #Coordinate to string
-        coor = str(coor)
-        enemy_shoot = self.connect.open_fire(coor)
+        str_coor = str(coor)
+        enemy_shoot = self.connect.open_fire(str_coor)
 
         #String to Coordinate
         enemy_shoot = Coordinate(enemy_shoot)
         enemy_result = self.get_hit(enemy_shoot)
-
-        result = self.connect.round_result(enemy_result)
-        print(f"enemy: {enemy_result} you: {result}")
         
-    
+        #Get results of our shot
+        result = self.connect.round_result(enemy_result)
+        self.update_opponent_grid(coor, result)
+
+        #Display updated fields
+        self.display_grids()
+        print(f"enemy: {enemy_result} you: {result}")
+
+        # Vérifie si quelqu’un a gagné
+        if result == "Game over":
+            self.terminal.message("YOU WIN!")
+            return "win"
+        elif enemy_result == "Game over":
+            self.terminal.message("YOU LOST! GAME OVER.")
+            return "lose"
+        return "continue"
+
+    def update_opponent_grid(self, coor, result):
+        '''
+        @brief Update the opponent's grid with the result of our shot.
+        
+        @param coordinate The coordinate where the shot was made.
+        @param result The result of the shot (Hit/Miss).
+        
+        @details This will mark the cell on the opponent's grid with the result of the shot.
+        '''
+        if result == "Hit" or  result == "Boat is sinking" or result == "Game over":
+            self.opponent_grid[coor].content = Content.HIT
+        elif result == "Missed":
+            self.opponent_grid[coor].content = Content.MISS    
+        
     def get_hit(self, coordinate):
         '''
         @brief result of a shoot at the player grid
@@ -124,27 +153,29 @@ class Player:
 
         '''
         cell = self.grid[coordinate]
+        
         if cell.content == Content.BOAT:
-            cell.content=Content.HIT
+            cell.content = Content.HIT
             if len(self.fleet)!= self.check_fleet():
 
                 if self.gameover():
-                    return "game over"
+                    message = "Game over"
                 else:
-                    return "Boat is sinking"
+                    message ="Hit and sunk !"
                 
             else:
-                return "Hit"
+                message = "Hit"
 
         elif cell.content == Content.EMPTY:
-            cell.content=Content.MISS
-            return "Missed"
+            cell.content = Content.MISS
+            message = "Missed"
 
         elif cell.content == Content.MISS:
-            return "Still nothing"
+            message = "Still nothing"
         
         elif cell.content == Content.HIT:
-            return "better safe than sorry..."
+            message = "better safe than sorry..."
+        return message
 
     def check_fleet(self):
         '''
@@ -163,7 +194,12 @@ class Player:
         
         return len(self.fleet)
     
-
+    def display_grids(self):
+        self.terminal.clear()
+        self.terminal.message("Your grid:", False)
+        self.terminal.print_grid(self.grid, False)
+        self.terminal.message("Your opponent field:", False)
+        self.terminal.print_grid(self.opponent_grid, False)
         
     def gameover(self):
         '''
