@@ -11,9 +11,19 @@ class Server (Client):
     '''
 
     def get_ip(self):
-        hostname = socket.gethostname()
-        ip = socket.gethostbyname(hostname)
-        return ip    
+        '''
+        @brief find server host
+        
+        @detail called oonce to retrieve the private IP of the host
+        
+        @return private IP
+        '''
+        try:
+            hostname = socket.gethostname()
+            ip = socket.gethostbyname(hostname)
+            return ip
+        except socket.gaierror:
+            print("Erreur lors de la récupération de l'hôte, vérifiez votre connection et réessayez.")   
 
     def first_connect(self, player_name):
         '''

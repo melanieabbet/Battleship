@@ -16,10 +16,13 @@ class Terminal:
                 return s    
 
     def get_host_ip(self):
-        #TODO gestion erreur
-        s = input("Entrez L'IP de l'hôte: ")
-        print(s)
-        return s
+        while True:
+            s = input("Entrez l'IP de l'hôte (ex: 192.168.1.42): ").strip()
+            try:
+                socket.inet_aton(s)  # Vérifie si c'est format IPv4
+                return s
+            except socket.error:
+                print("IP invalide. Veuillez réessayer.")
 
 
     def get_coordinate(self, grid, message=None, print_grid = True):
