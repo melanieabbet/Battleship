@@ -28,5 +28,8 @@ if __name__ =="__main__":
     while True:
         coor=player.shoot()
         result = player.round(coor)
+
+        if result in ["win", "lose"]:
+            break  # Fin du jeu
     
-    # 5) TODO end of game
+    # 5) TODO end of game // restart?
