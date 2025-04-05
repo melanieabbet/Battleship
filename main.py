@@ -1,25 +1,27 @@
 '''execution module to test as a playground'''
 import time
+from enum import Enum
 from gameplay import Player
 
-
+    
 
 
 if __name__ =="__main__":
-    player = Player("nom")
+    # 1) start of the game and setup
+    name = input("enter your name:")
+    player = Player(name)
+    player.set_role()
+
+    # 2) whait for oponent
+    player.lobby()
+    time.sleep(2)
+
+    # 3) place all the boat
     player.set_boat()
 
+    # 4) game start
     while True:
-        # player.terminal.clear()
-        # print(player.grid)
-        # c = player.terminal.get_coordinate(player.grid)
-        # player.terminal.clear()
-        # player.shoot(player.grid, c)
-        # print(player.grid)
-        # time.sleep(5)
-        player.terminal.clear()
-        coor = player.shoot()
-        player.aim(coor)
-        time.sleep(5)
-
+        coor=player.shoot()
+        result = player.round(coor)
     
+    # 5) TODO end of game
