@@ -116,7 +116,7 @@ class Player:
 
         #Display updated fields
         self.display_grids()
-        print(f"enemy: {enemy_result} you: {result}")
+        print(f"Enemy: {enemy_result}, You: {result}")
 
         # Vérifie si quelqu’un a gagné
         if result == "Game over":

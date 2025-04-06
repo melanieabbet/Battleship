@@ -9,7 +9,25 @@ class Server (Client):
      
     @details it heritate from the Server class
     '''
+    def _exchange_data(self, data_to_send):
+        '''
+        @brief Intern method to listen, accept a connection, receive data, and send a param as response.
 
+        @param data_to_send: data to send to client (str)
+
+        @return data received from client (str)
+        '''
+        self.socket.listen()
+        conn, addr = self.socket.accept()
+
+        with conn:
+            while True:
+                data = conn.recv(1024).decode('utf-8')
+                if data:
+                    conn.send(data_to_send.encode('utf-8'))
+                    return data
+
+        
     def get_ip(self):
         '''
         @brief find server host
@@ -51,43 +69,19 @@ class Server (Client):
     
     def open_fire(self, coor_string):
         '''
-        @breif discution with client
-        
-        @details send the shoot coordinate and recive the one from the enemy
+        @brief manage coordinate exchange
         
         @return coordinate of the enemy shoot (as a string)
         '''
-        self.socket.listen()
-        conn, addr = self.socket.accept()
-
-        with conn:
-            while True:
-                opponent_shoot = conn.recv(1024).decode('utf-8')
-                if opponent_shoot:
-                    conn.send(coor_string.encode('utf-8'))
-                    break
-            
-        return opponent_shoot
+        return self._exchange_data(coor_string)
     
     def round_result(self, enemy_result):
         '''
-        @breif discution with client
-        
-        @details send the result of his shoot to the enemy get the player result
-        
+        @brief manage results exchange
+
         @return the result of the shoot from the player
         '''
-        self.socket.listen()
-        conn, addr  = self.socket.accept() #wait until accept
-
-        with conn:
-            while True:
-                result = conn.recv(1024).decode('utf-8')
-                if result:
-                    conn.send(enemy_result.encode('utf-8'))
-                    break
-                
-        return result
+        return self._exchange_data(enemy_result)
     
 
     def close_socket(self):
