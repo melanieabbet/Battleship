@@ -20,7 +20,8 @@ class Terminal:
         '''
         @brief input function for player role
 
-<<<<<<< HEAD
+<<<<<<< HEAD  
+
         @details player role can only be "host" or "join"
         '''
         while True:
@@ -39,39 +40,7 @@ class Terminal:
                 time.sleep(self.TIME_ERROR) 
 
     
-    def get_ip(self):
-        '''
-        @brief input method to get an ip address
-        '''
-        while True:
-            self.message("Enter the IP address of the Host")
-
-            s = input("IP: ")
-            if self.valid_ip_address(s):
-                return s
-            else:
-                self.message("The input is not a valid IPv4")
-                self.message("IPv4 has the folowing fromat: 127.0.0.1", clear=False)   
-                time.sleep(self.TIME_ERROR)
-
-
-    def valid_ip_address(self, ip_string):
-        '''
-        @breif return true if the string is an ip address
         
-        @note source: https://www.codemotion.com/magazine/languages/how-to-validate-an-ip-address-using-python/
-        '''
-
-        try:
-            ip_object = ipaddress.ip_address(ip_string)
-            if type(ip_object) == ipaddress.IPv4Address:
-                return True
-            else: 
-                return None
-            
-        except ValueError:
-            return False
-=======
     def get_host_ip(self):
         while True:
             s = input("Entrez l'IP de l'hôte (ex: 192.168.1.42): ").strip()
@@ -80,7 +49,6 @@ class Terminal:
                 return s
             except socket.error:
                 print("IP invalide. Veuillez réessayer.")
->>>>>>> 070dd62 (Handling IP error)
 
 
     def get_coordinate(self, grid, message=None, print_grid = True):
