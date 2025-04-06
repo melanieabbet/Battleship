@@ -23,19 +23,15 @@ class Terminal:
         @details player role can only be "host" or "join"
         '''
         while True:
-            self.message("Join Game")
-            self.message("Host Game", clear=False)
-
-
-            s = input("Select: ")
+            s = input("Enter your role (Guest or Host): ")
             s = s.casefold()
-            if s == "join":
+            if s == "guest":
                 return NetRole.GUEST
             elif s == "host":
                 return NetRole.HOST
             else:
-                self.message("Enter Join or Host")
-                time.sleep(self.TIME_ERROR) 
+                self.message("Enter Guest or Host")
+                #time.sleep(self.TIME_ERROR) 
 
     
     def get_host_ip(self):

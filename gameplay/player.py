@@ -37,11 +37,17 @@ class Player:
     
 
     def set_role(self):
-
         role = self.terminal.get_role()
         if role == NetRole.HOST:
             self.connect = Server()
-            self.role= NetRole.HOST
+            
+            # Is Server role free ?
+            if self.connect.is_server_running():
+                self.terminal.message("Oups trop lent, un hôte existe déjà, vous serez un guest !")
+                self.connect = Client()  # Change to client
+                self.role = NetRole.GUEST
+            else:
+                self.role = NetRole.HOST
         elif NetRole.GUEST:
             self.connect = Client()
             self.role= NetRole.GUEST
@@ -55,6 +61,7 @@ class Player:
         else:
             host_ip = self.terminal.get_host_ip()
             self.connect.set_host(host_ip)
+
         opponent = self.connect.first_connect(self.name)
         self.opponent = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
