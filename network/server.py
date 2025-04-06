@@ -11,8 +11,10 @@ class Server (Client):
     '''
     def _exchange_data(self, data_to_send):
         '''
-        @brief Intern method to listen, accept a connection, receive data, and send a param as response.
+        @brief Internal method to handle data exchange with the client.
 
+        @details Listen, accept a connection, receive data, and send a param as response.
+        
         @param data_to_send: data to send to client (str)
 
         @return data received from client (str)
@@ -69,7 +71,7 @@ class Server (Client):
     
     def open_fire(self, coor_string):
         '''
-        @brief manage coordinate exchange
+        @brief Exchange coordinates
         
         @return coordinate of the enemy shoot (as a string)
         '''
@@ -77,7 +79,7 @@ class Server (Client):
     
     def round_result(self, enemy_result):
         '''
-        @brief manage results exchange
+        @brief Exchange results
 
         @return the result of the shoot from the player
         '''

@@ -16,6 +16,25 @@ class Client:
         self.host = host_ip
         self.port = 12345
     
+    def _exchange_data(self, data_to_send):
+        '''
+        @brief Internal method to handle data exchange with the server.
+
+        @details Connects, sends data, receives a response, and closes the connection.
+
+        @param data_to_send: Data to send to server (str)
+        
+        @return: Data received from server (str)
+        '''
+        s = self.connect()
+        if s:
+            try:
+                s.send(data_to_send.encode('utf-8'))
+                response = s.recv(1024).decode('utf-8')
+                return response
+            finally:
+                s.close()
+    
     def set_host(self, host_ip):
         self.host = host_ip
 
@@ -43,59 +62,29 @@ class Client:
 
     def first_connect(self, player_name):
         '''
-        @brief first discution ingame
-        
-        @details discution with nametag exchange
-        
-        @note close the socket at the end of discution
+        @brief Nametag exchange
         
         @return name of enemy
         '''
-        s = self.connect()
-        if s:
-            #when connected, send user name
-            s.send(player_name.encode('utf-8'))
-            enemy_name  = s.recv(1024).decode('utf-8')
-            s.close()
-
-        return enemy_name
+        return self._exchange_data(player_name)
     
 
     def open_fire(self, coor_string):
         '''
-        @breif discution with server
-        
-        @details send the shoot coordinate and recive the one from the enemy
+        @brief Exchange coordinates
         
         @return coordinate of the enemy shoot (as a string)
         '''
-        
-        s = self.connect()
-        if s:
-            #when connected, send user name
-            s.send(coor_string.encode('utf-8'))
-            enemy_shoot  = s.recv(1024).decode('utf-8')
-            s.close()
-
-        return enemy_shoot
+        return self._exchange_data(coor_string)
     
     
     def round_result(self, enemy_result):
         '''
-        @breif discution with server
+        @brief Exchange results
         
-        @details send the result of his shoot to the enemy get the player result
-        
-        @return the result of the shoot from the player
+        @return the result of the shoot from ennemi (as a string)
         '''
-        s = self.connect()
-        if s:  
-            #when connected, send user name
-            s.send(enemy_result.encode('utf-8'))
-            result  = s.recv(1024).decode('utf-8')
-            s.close()
-
-        return result
+        return self._exchange_data(enemy_result)
     
 
 
