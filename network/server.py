@@ -68,23 +68,6 @@ class Server (Client):
                     break
             
         return opponent_name
-    
-    def open_fire(self, coor_string):
-        '''
-        @brief Exchange coordinates
-        
-        @return coordinate of the enemy shoot (as a string)
-        '''
-        return self._exchange_data(coor_string)
-    
-    def round_result(self, enemy_result):
-        '''
-        @brief Exchange results
-
-        @return the result of the shoot from the player
-        '''
-        return self._exchange_data(enemy_result)
-    
 
     def close_socket(self):
         '''TODO use at the end of the game'''
