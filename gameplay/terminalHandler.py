@@ -24,7 +24,7 @@ class Terminal:
         while True:
             s = input("Enter your role (Join or Host): ")
             s = s.casefold()
-            if s == "guest":
+            if s == "join":
                 return NetRole.GUEST
             elif s == "host":
                 return NetRole.HOST

@@ -8,7 +8,7 @@ from gameplay import Player
 
 if __name__ =="__main__":
     # 1) start of the game and setup
-    name = input("enter your name:")
+    name = input("Enter your name:")
     player = Player(name)
     # enemy = Player("enemy")
 
