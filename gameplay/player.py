@@ -143,7 +143,7 @@ class Player:
         
         @details This will mark the cell on the opponent's grid with the result of the shot.
         '''
-        if result == "Hit" or  result == "Boat is sinking" or result == "Game over":
+        if result == "Hit" or  result == "Hit and sunk !" or result == "Game over":
             self.opponent_grid[coor].content = Content.HIT
         elif result == "Missed":
             self.opponent_grid[coor].content = Content.MISS    
