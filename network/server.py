@@ -29,7 +29,6 @@ class Server (Client):
                     conn.send(data_to_send.encode('utf-8'))
                     return data
 
-        
     def get_ip(self):
         '''
         @brief find server host
@@ -57,6 +56,7 @@ class Server (Client):
         
         @return enemy name
         '''
+     
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((self.host, self.port))
         s.listen()
@@ -72,8 +72,16 @@ class Server (Client):
             
         return opponent_name
 
+    def is_server_running(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind((self.get_ip(), self.port))
+            s.close()
+            return False
+        except OSError:
+            return True
+        
     def close_socket(self):
         '''TODO use at the end of the game'''
         self.socket.close()
-
 

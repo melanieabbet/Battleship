@@ -22,13 +22,9 @@ class Terminal:
         @details player role can only be "host" or "join"
         '''
         while True:
-            self.message("Join Game")
-            self.message("Host Game", clear=False)
-
-
-            s = input("Select: ")
+            s = input("Enter your role (Join or Host): ")
             s = s.casefold()
-            if s == "join":
+            if s == "guest":
                 return NetRole.GUEST
             elif s == "host":
                 return NetRole.HOST
@@ -115,7 +111,7 @@ class Terminal:
                 #restart
                 return_coor= []
                 i =0
-                self.message(f"There is already a Boat at this ccordinate: {c}")
+                self.message(f"There is already a Boat at this coordinate: {c}")
                 time.sleep(self.TIME_ERROR)
             else:
                 if return_coor:
@@ -127,7 +123,7 @@ class Terminal:
                         i+=1
                     else:
                         #restart
-                        self.message(f"The cordinate, {c} is not alligned with {return_coor}")
+                        self.message(f"The coordinate, {c} is not alligned with {return_coor}")
                         time.sleep(2)
                         return_coor= []
                         i =0
@@ -140,7 +136,7 @@ class Terminal:
     
     def message(self, string, clear=True):
         '''
-        @breif output method to print a string in the terminal
+        @brief output method to print a string in the terminal
         
         @param string string to print
         

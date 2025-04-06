@@ -37,11 +37,17 @@ class Player:
     
 
     def set_role(self):
-
         role = self.terminal.get_role()
         if role == NetRole.HOST:
             self.connect = Server()
-            self.role= NetRole.HOST
+            
+            # Is Server role free ?
+            if self.connect.is_server_running():
+                self.terminal.message("Oups trop lent, un hôte existe déjà, vous serez un guest !")
+                self.connect = Client()  # Change to client
+                self.role = NetRole.GUEST
+            else:
+                self.role = NetRole.HOST
         elif NetRole.GUEST:
             self.connect = Client()
             self.role= NetRole.GUEST
@@ -55,6 +61,7 @@ class Player:
         else:
             host_ip = self.terminal.get_host_ip()
             self.connect.set_host(host_ip)
+
         opponent = self.connect.first_connect(self.name)
         self.opponent = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
@@ -118,7 +125,7 @@ class Player:
 
         #Display updated fields
         self.display_grids()
-        print(f"enemy: {enemy_result} you: {result}")
+        print(f"Enemy: {enemy_result}, You: {result}")
 
         # Vérifie si quelqu’un a gagné
         if result == "Game over":
@@ -138,7 +145,7 @@ class Player:
         
         @details This will mark the cell on the opponent's grid with the result of the shot.
         '''
-        if result == "Hit" or  result == "Boat is sinking" or result == "Game over":
+        if result == "Hit" or  result == "Hit and sunk !" or result == "Game over":
             self.opponent_grid[coor].content = Content.HIT
         elif result == "Missed":
             self.opponent_grid[coor].content = Content.MISS    
