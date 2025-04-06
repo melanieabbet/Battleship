@@ -6,6 +6,8 @@ __pycache__/
 # Obsidian vault
 *.Obsidian
 
+_doxygen
+
 # C extensions
 *.so
 

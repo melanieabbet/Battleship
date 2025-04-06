@@ -53,7 +53,7 @@ class Boat:
     
     def __lt__(self, other):
         '''
-        @brief less than so boat can be sorted
+        @brief less than, so boat can be sorted
 
         @note the weakest (hp) is the biggest
                 -> so it will be at the end of the list

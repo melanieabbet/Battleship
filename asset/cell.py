@@ -1,15 +1,7 @@
 '''
-This file deal with the cell assset
+@file cell.py 
 
-the Cell asset is the base componenet of the Grid
-
-The cell has an adddress and a content
-
-The adress is the location of the cell inside the Grid
-
-the content is what's inside the Cell
-
-Both of thos concept are a class
+@brief This file deal with the cell assset
 '''
 
 from enum import Enum
@@ -18,7 +10,7 @@ class Content(Enum):
     '''
     @brief enum class for the cell content
     
-    @detail A cell can have:
+    @details A cell can have:
         Water -> EMPTY
         Boat -> BOAT
         Damaged boat (localy)-> HIT
@@ -33,7 +25,12 @@ class Content(Enum):
 
 
 class Cell:
+    '''
+    @brief the Cell asset is the base componenet of the Grid
+    '''
     def __init__(self, content=Content.EMPTY):
+        '''
+        @brief class constructo'''
         # self.address = address
         self.content = content
 
@@ -50,9 +47,15 @@ class Cell:
             return f" O "
     
     def set_boat(self):
+        '''
+        @brief Set the cell content as a boat
+        '''
         self.content = Content.BOAT
 
     def set_hit(self):
+        '''
+        @brief Set the cell content as a hit boat
+        '''
         self.content = Content.HIT
 
         

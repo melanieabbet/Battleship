@@ -37,6 +37,11 @@ class Player:
     
 
     def set_role(self):
+        '''
+        @brief set the role of the player
+        
+        @details can be Host or Guest
+        '''
         role = self.terminal.get_role()
         if role == NetRole.HOST:
             self.connect = Server()
@@ -53,7 +58,9 @@ class Player:
             self.role= NetRole.GUEST
         
     def lobby(self):
-
+        '''
+        @brief when the player is waiting for opponent
+        '''
         if self.role == NetRole.HOST:
             ip = self.connect.get_ip()
             self.connect.set_host(ip)
@@ -90,9 +97,6 @@ class Player:
         
         @return Coordinate
         '''
-        # self.terminal.message("C'est parti, lançons les hostilités !")
-        # self.terminal.message("Quel sera votre prochain tire?")
-        # self.terminal.print_grid(self.opponent_grid, False)
         #message is the string representing both grid
         #TODO add name on grid
         message = self.terminal.print_grid(self.grid, self.opponent_grid)
@@ -141,6 +145,7 @@ class Player:
         @brief Update the opponent's grid with the result of our shot.
         
         @param coordinate The coordinate where the shot was made.
+
         @param result The result of the shot (Hit/Miss).
         
         @details This will mark the cell on the opponent's grid with the result of the shot.
@@ -157,9 +162,6 @@ class Player:
         @param coordinate Coordinate where the shoot aim at
 
         @return result of the shoot
-
-        @TODO the result is returned as a string, there is something better to do
-
         '''
         cell = self.grid[coordinate]
         
@@ -205,14 +207,11 @@ class Player:
     
     def display_grids(self):
         '''
-        TODO should pass the name of grid'''
+        @brief method to print grids of the player and his opponent
+        '''
+        #TODO should pass the name of grid
         message = self.terminal.print_grid(self.grid, self.opponent_grid)
         self.terminal.message(message)
-        # self.terminal.clear()
-        # self.terminal.message("Your grid:", False)
-        # self.terminal.print_grid(self.grid, False)
-        # self.terminal.message("Your opponent field:", False)
-        # self.terminal.print_grid(self.opponent_grid, False)
         
     def gameover(self):
         '''

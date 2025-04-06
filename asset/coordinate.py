@@ -1,4 +1,4 @@
-#TDD
+#Test-Driven Development (TDD)
 '''
 #Instance creation
 >>> a = Coordinate("a2")
@@ -66,24 +66,28 @@ CoordinateOutOfBound: Coordinate not in the Grid
 Traceback (most recent call last):
 [...]
 CoordinateOutOfBound: Coordinate not in the Grid
-
 '''
 
 import re
 
 class Coordinate:
+    '''
+    @brief class that deal with the coordinate of a cell in a grid
+    
+    @details class is used as a key in the dictionary of the Grid class
+    '''
 
     def __init__(self, *args):
         '''
         @brief constructor of coordinate class
 
-        @detail the constructor only accept a string or two init number
-                Otherwise it raise an Exception Error
+        @details the constructor only accept a string or two init number
+                Otherwise it raise a CoordinateException Error
                 If a string is passed, it is test if valid.
                     -> if not it rais an error
                 If two number ar passed they are converted (row 0 = row 1)
 
-        @param can be a string or two number
+        @param *arg Can be a string or two number
         '''
         e = CoordinateException(f"{args} Can not creat a Coordinate with this input")
 
@@ -112,7 +116,7 @@ class Coordinate:
     
     def coordinate_from_string(self,test_string):
         '''
-        @brief return the column and row if the string respect the format
+        @brief return the column and row if the string respect the format of a coordinate
 
         @detail convert with regex the input string as a column and row formated for the class creation
                 If the string do not mach an expected format (lettre+number)
@@ -131,21 +135,41 @@ class Coordinate:
     
         
     def right(self):
+        '''
+        @brief get the coordinate on the right
+        
+        @return Coordinate
+        '''
         column = self.column+1
         row = self.row
         return Coordinate(column, row)
   
     def left(self):
+        '''
+        @brief get the coordinate on the left
+        
+        @return Coordinate
+        '''
         column = self.column-1
         row = self.row
         return Coordinate(column, row)
     
     def up(self):
+        '''
+        @brief get the coordinate on top
+        
+        @return Coordinate
+        '''
         column = self.column
         row = self.row-1
         return Coordinate(column, row)
     
     def down(self):
+        '''
+        @brief get the coordinate bellow
+        
+        @return Coordinate
+        '''
         column = self.column
         row = self.row+1
         return Coordinate(column, row)
@@ -153,6 +177,8 @@ class Coordinate:
     def check(self):
         '''
         @brief check if the coordinate is valid
+
+        @details raise an CoordinateOutOfBound error if row or column lower than 0
         '''
         if self.column<0 or self.row<0:
             raise CoordinateOutOfBound("Coordinate not in the Grid")
@@ -176,7 +202,7 @@ class Coordinate:
     
     def __lt__(self, other):
         '''
-        @brief comparaison methode to sort
+        @brief comparaison methode to sort Coordinate objects in a list
         '''
         if self.row == other.row:
             return self.column<other.column
@@ -186,7 +212,7 @@ class Coordinate:
 
     def __eq__(self, coordinate):
         '''
-        @brief special methode to test the equality between two instance
+        @brief special methode to test the equality between two objects
         '''
         return self.column == coordinate.column and self.row == coordinate.row
     
@@ -195,7 +221,7 @@ class Coordinate:
     @staticmethod
     def is_suite(*args):
         '''
-        @brief return true if both coordinate ar aligned
+        @brief return true if all coordinate are aligned
         '''
         try:
             test_list = list(*args)
@@ -236,7 +262,15 @@ class Coordinate:
     
     @staticmethod
     def index_from_letter(string):
+        '''
+        @brief method that give the column index from the column "name"
 
+        @detail base 10 convertion of the index letter
+
+        @param column letter(s)
+
+        @return int of column index
+        '''
         alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
         total = 0
@@ -249,9 +283,15 @@ class Coordinate:
 # Specific Exception
 # ---------------------------------------------
 class CoordinateException(Exception):
+    '''
+    @brief Exception for Coordinate class
+    '''
     pass
 
 class CoordinateOutOfBound(Exception):
+    '''
+    @brief Exception for Coordinate class
+    '''
     pass
     
 
