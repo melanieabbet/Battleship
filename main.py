@@ -10,10 +10,15 @@ if __name__ =="__main__":
     # 1) start of the game and setup
     name = input("enter your name:")
     player = Player(name)
+    # enemy = Player("enemy")
+
+    # player.terminal.print_grid(player.grid, enemy.grid)
+    
     player.set_role()
 
     # 2) whait for oponent
     player.lobby()
+
     time.sleep(2)
 
     # 3) place all the boat
@@ -23,6 +28,7 @@ if __name__ =="__main__":
     while True:
         coor=player.shoot()
         result = player.round(coor)
+        time.sleep(2)
 
         if result in ["win", "lose"]:
             break  # Fin du jeu

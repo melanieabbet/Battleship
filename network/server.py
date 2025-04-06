@@ -45,7 +45,8 @@ class Server (Client):
             ip = socket.gethostbyname(hostname)
             return ip
         except socket.gaierror:
-            print("Erreur lors de la récupération de l'hôte, vérifiez votre connection et réessayez.")   
+            print("Erreur lors de la récupération de l'hôte, vérifiez votre connection et réessayez.")
+               
 
     def first_connect(self, player_name):
         '''

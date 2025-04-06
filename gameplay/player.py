@@ -29,22 +29,22 @@ class Player:
 
         #boat init
         a = Boat(2)
-        b = Boat(3)
+        # b = Boat(3)
         # c = Boat(4)
         # d = Boat(5)
 
-        self.fleet = [a, b]
+        self.fleet = [a]
     
 
     def set_role(self):
 
         role = self.terminal.get_role()
-        if role == "h":
+        if role == NetRole.HOST:
             self.connect = Server()
             self.role= NetRole.HOST
-        else:
+        elif NetRole.GUEST:
             self.connect = Client()
-            self.role= NetRole.GUESS
+            self.role= NetRole.GUEST
         
     def lobby(self):
 
@@ -74,7 +74,6 @@ class Player:
 
         self.fleet.sort() # so the weakest boat is at the end
         self.terminal.clear()
-        print(self.grid)
 
         return True
     
@@ -87,7 +86,10 @@ class Player:
         # self.terminal.message("C'est parti, lançons les hostilités !")
         # self.terminal.message("Quel sera votre prochain tire?")
         # self.terminal.print_grid(self.opponent_grid, False)
-        return self.terminal.get_coordinate(self.grid)
+        #message is the string representing both grid
+        #TODO add name on grid
+        message = self.terminal.print_grid(self.grid, self.opponent_grid)
+        return self.terminal.get_coordinate(self.grid, message=message, print_grid=False)
     
 
     def round(self, coor):
@@ -116,7 +118,7 @@ class Player:
 
         #Display updated fields
         self.display_grids()
-        print(f"Enemy: {enemy_result}, You: {result}")
+        print(f"enemy: {enemy_result} you: {result}")
 
         # Vérifie si quelqu’un a gagné
         if result == "Game over":
@@ -195,11 +197,15 @@ class Player:
         return len(self.fleet)
     
     def display_grids(self):
-        self.terminal.clear()
-        self.terminal.message("Your grid:", False)
-        self.terminal.print_grid(self.grid, False)
-        self.terminal.message("Your opponent field:", False)
-        self.terminal.print_grid(self.opponent_grid, False)
+        '''
+        TODO should pass the name of grid'''
+        message = self.terminal.print_grid(self.grid, self.opponent_grid)
+        self.terminal.message(message)
+        # self.terminal.clear()
+        # self.terminal.message("Your grid:", False)
+        # self.terminal.print_grid(self.grid, False)
+        # self.terminal.message("Your opponent field:", False)
+        # self.terminal.print_grid(self.opponent_grid, False)
         
     def gameover(self):
         '''
