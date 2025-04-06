@@ -16,8 +16,6 @@ class Client:
         self.host = host_ip
         self.port = 12345
     
-<<<<<<< HEAD
-=======
     def _exchange_data(self, data_to_send):
         '''
         @brief Internal method to handle data exchange with the server.
@@ -37,7 +35,6 @@ class Client:
             finally:
                 s.close()
     
->>>>>>> main
     def set_host(self, host_ip):
         self.host = host_ip
 

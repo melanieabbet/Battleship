@@ -9,14 +9,6 @@ class Server (Client):
      
     @details it heritate from the Server class
     '''
-<<<<<<< HEAD
-
-    def get_ip(self):
-        '''
-        @brief find server host
-        
-        @detail called oonce to retrieve the private IP of the host
-=======
     def _exchange_data(self, data_to_send):
         '''
         @brief Internal method to handle data exchange with the client.
@@ -45,7 +37,6 @@ class Server (Client):
         @detail called once to retrieve the private IP of the host
 
         @info MacOs: https://stackoverflow.com/questions/69937085/socket-gethostbyname-fails-on-macos
->>>>>>> main
         
         @return private IP
         '''
@@ -54,7 +45,8 @@ class Server (Client):
             ip = socket.gethostbyname(hostname)
             return ip
         except socket.gaierror:
-            print("Erreur lors de la récupération de l'hôte, vérifiez votre connection et réessayez.")   
+            print("Erreur lors de la récupération de l'hôte, vérifiez votre connection et réessayez.")
+               
 
     def first_connect(self, player_name):
         '''
