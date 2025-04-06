@@ -7,12 +7,12 @@
 >>> d = Coordinate("#3") # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 [...]
-CoordinateException: ('#3',) can not creat a Coordinate
+CoordinateException: ('#3',) Can not creat a Coordinate with this input
 
 >>> d = Coordinate("3a") # doctest: +IGNORE_EXCEPTION_DETAIL
 Traceback (most recent call last):
 [...]
-CoordinateException: ('#3',) can not creat a Coordinate
+CoordinateException: ('#3',) Can not creat a Coordinate with this input
 
 #repr
 >>> print(a)
@@ -61,11 +61,11 @@ A2
 >>> e.up()
 Traceback (most recent call last):
 [...]
-CoordinateOutOfBound: out of bound
+CoordinateOutOfBound: Coordinate not in the Grid
 >>> e.left()
 Traceback (most recent call last):
 [...]
-CoordinateOutOfBound: out of bound
+CoordinateOutOfBound: Coordinate not in the Grid
 
 '''
 
@@ -85,7 +85,7 @@ class Coordinate:
 
         @param can be a string or two number
         '''
-        e = CoordinateException(f"{args} can not creat a Coordinate")
+        e = CoordinateException(f"{args} Can not creat a Coordinate with this input")
 
         if len(args)==1:
             #Args must be a string
@@ -155,7 +155,7 @@ class Coordinate:
         @brief check if the coordinate is valid
         '''
         if self.column<0 or self.row<0:
-            raise CoordinateOutOfBound("out of bound")
+            raise CoordinateOutOfBound("Coordinate not in the Grid")
 
     # ---------------------------------------------
     # Special mehodes

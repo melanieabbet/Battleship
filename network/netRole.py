@@ -5,4 +5,4 @@ class NetRole(Enum):
 
     NONE = 0
     HOST = 1
-    GUESS =2
+    GUEST =2

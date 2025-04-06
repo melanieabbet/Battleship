@@ -38,12 +38,12 @@ class Player:
     def set_role(self):
 
         role = self.terminal.get_role()
-        if role == "h":
+        if role == NetRole.HOST:
             self.connect = Server()
             self.role= NetRole.HOST
-        else:
+        elif NetRole.GUEST:
             self.connect = Client()
-            self.role= NetRole.GUESS
+            self.role= NetRole.GUEST
         
     def lobby(self):
         #if self.role == NetRole.HOST:
