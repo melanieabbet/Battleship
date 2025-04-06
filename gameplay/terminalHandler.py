@@ -20,6 +20,7 @@ class Terminal:
         '''
         @brief input function for player role
 
+<<<<<<< HEAD
         @details player role can only be "host" or "join"
         '''
         while True:
@@ -70,6 +71,16 @@ class Terminal:
             
         except ValueError:
             return False
+=======
+    def get_host_ip(self):
+        while True:
+            s = input("Entrez l'IP de l'hôte (ex: 192.168.1.42): ").strip()
+            try:
+                socket.inet_aton(s)  # Vérifie si c'est format IPv4
+                return s
+            except socket.error:
+                print("IP invalide. Veuillez réessayer.")
+>>>>>>> 070dd62 (Handling IP error)
 
 
     def get_coordinate(self, grid, message=None, print_grid = True):
