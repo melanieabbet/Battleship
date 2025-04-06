@@ -3,7 +3,6 @@
 from asset import Coordinate, CoordinateException, CoordinateOutOfBound, Content
 from network import NetRole
 
-import ipaddress
 import copy
 import time
 import os
@@ -19,8 +18,6 @@ class Terminal:
     def get_role(self):
         '''
         @brief input function for player role
-
-<<<<<<< HEAD  
 
         @details player role can only be "host" or "join"
         '''
@@ -51,7 +48,7 @@ class Terminal:
                 print("IP invalide. Veuillez réessayer.")
 
 
-    def get_coordinate(self, grid, message=None, print_grid = True):
+    def get_coordinate(self, *grids, message=None, print_grid = True):
         '''
         @brief input method to get a grid coordinate
         
@@ -67,13 +64,14 @@ class Terminal:
 
             self.clear()
             if print_grid:
-                self.print_grid(grid)
+                grid_string = self.print_grid(grids)
+                self.message(grid_string)
             if message:
                 self.message(message, clear=False)
             
             try:
                 c = input("Entrez une coordonée de la grille:")
-                if (coor:=Coordinate(c)) and  grid[coor]:
+                if (coor:=Coordinate(c)) and  grids[0][coor]:
                     break
             except (CoordinateException,  CoordinateOutOfBound) as e:
                 if type(e)==CoordinateException:
@@ -103,14 +101,14 @@ class Terminal:
         i = 0
         while i<size:
             instruct = f"Enter {size} coordinates that folow: {size-len(return_coor)} remaining"
-            self.print_grid(grid)
-            self.message(instruct, clear=False) 
+            grid_string = self.print_grid(grid)
+            message = grid_string + "\n" + instruct
             if return_coor:
                 return_coor.sort()
-                self.message(f"current entry: {return_coor}", clear=False)
+                message = message + "\n" + repr(return_coor)
 
             #entry for one coordinate
-            c = self.get_coordinate(grid, message=instruct)
+            c = self.get_coordinate(grid, message=message, print_grid=False)
 
             #test entry
             if grid[c].content==Content.BOAT:
@@ -152,9 +150,11 @@ class Terminal:
             self.clear()
         print(string)
 
-    def print_grid(self, *grid_list, clear=True):
+    def print_grid(self, *grid_list):
         '''
         @brief output method used to print grid side by side
+
+        @details do not print in terminal but return a string ready to be printed
 
         @note   TODO probably a better way to do it (too much loop)
                 TODO add name of player on top
@@ -162,8 +162,7 @@ class Terminal:
         SPACING = 5
         space_string =" "*SPACING
 
-        if clear:
-            self.clear()
+
 
         nb_of_grid = len(grid_list)
         if nb_of_grid>1:
@@ -185,11 +184,13 @@ class Terminal:
                 return_string+= "\n"
                 i+=1
 
-            self.message(return_string, clear=False)
+            #self.message(return_string, clear=False)
+            return return_string
 
         else:
             grid = grid_list[0]
-            self.message(repr(grid), clear=False)
+            #self.message(repr(grid), clear=False)
+            return repr(grid)
 
         
     
