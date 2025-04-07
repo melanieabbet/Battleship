@@ -36,7 +36,6 @@ class Player:
 
         self.fleet = [a]
     
-
     def set_role(self):
         '''
         @brief set the role of the player
@@ -74,7 +73,6 @@ class Player:
         self.opponent_name = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
 
-
     def set_boat(self):
         '''
         @brief Use to put all the fleet on the Grid
@@ -86,10 +84,7 @@ class Player:
 
         for boat in self.fleet:
             boat.set_boat(self.terminal.get_coordinate_array(boat.size, self.grid), self.grid)
-
         self.fleet.sort() # so the weakest boat is at the end
-        self.terminal.clear()
-
         return True
     
     def shoot(self):
@@ -100,7 +95,8 @@ class Player:
         '''
         #message is the string representing both grid
         message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
-        return self.terminal.get_coordinate(self.grid, message=message, print_grid=False)
+         
+        return self.terminal.get_coordinate(self.grid, message=message)
     
 
     def round(self, coor):
@@ -111,9 +107,6 @@ class Player:
                 with the round data and the game status
         
         @param coor Coordinate where the play is shooting at
-        
-        @TODO the result is printed inside the methode
-                -> a terminal method should be called
         '''
         #Coordinate to string
         str_coor = str(coor)
@@ -128,8 +121,11 @@ class Player:
         self.update_opponent_grid(coor, result)
 
         #Display updated fields
-        self.display_grids()
-        print(f"Enemy: {enemy_result}, You: {result}")
+        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
+        self.terminal.message(message)
+
+        message = f"Enemy: {enemy_result}, You: {result}"
+        self.terminal.message(message)
 
         # Vérifie si quelqu’un a gagné
         if result == "Game over":
@@ -204,14 +200,7 @@ class Player:
             self.fleet.pop() #remove last boat
         
         return len(self.fleet)
-    
-    def display_grids(self):
-        '''
-        @brief method to print grids of the player and his opponent
-        '''
-        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
-        self.terminal.message(message)
-        
+         
     def gameover(self):
         '''
         @brief test the gameover condition

@@ -61,7 +61,7 @@ class Terminal:
                 print("IP invalide. Veuillez réessayer.")
 
 
-    def get_coordinate(self, *grids, message=None, print_grid = True):
+    def get_coordinate(self, *grids, message=None):
         '''
         @brief input method to get a grid coordinate
         
@@ -76,12 +76,8 @@ class Terminal:
         while True:
 
             self.clear()
-            if print_grid:
-                grid_string = self.print_grid(grids)
-                self.message(grid_string)
             if message:
                 self.message(message, clear=False)
-            
             try:
                 c = input("Entrez une coordonée de la grille:")
                 if (coor:=Coordinate(c)) and  grids[0][coor]:
@@ -121,7 +117,7 @@ class Terminal:
                 message = message + "\n" + repr(return_coor)
 
             #entry for one coordinate
-            c = self.get_coordinate(grid, message=message, print_grid=False)
+            c = self.get_coordinate(grid, message=message)
 
             #test entry
             if grid[c].content==Content.BOAT:

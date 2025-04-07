@@ -14,7 +14,7 @@ class Server (Client):
     @details it heritate from the Server class
     '''
     def _exchange_data(self, data_to_send):
-        '''$
+        '''
         @brief Internal method to handle data exchange with the client.
 
         @details Listen, accept a connection, receive data, and send a param as response.

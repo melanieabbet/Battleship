@@ -66,7 +66,7 @@ class Grid:
         '''
         #TODO error of display if size >9
 
-        return_string = "[\]"
+        return_string = r"[\]"
         #Header
         return_string+= "".join([f"[{Coordinate.letter_from_index(i)}]" for i in range(self.size)])
         return_string+="\n"

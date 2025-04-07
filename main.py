@@ -28,7 +28,7 @@ if __name__ =="__main__":
     while True:
         coor=player.shoot()
         result = player.round(coor)
-        time.sleep(2)
+        time.sleep(3)
 
         if result in ["win", "lose"]:
             break  # Fin du jeu
