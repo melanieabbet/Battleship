@@ -1,5 +1,9 @@
+'''
+@file server.py
+
+@brief file with the Server class
+'''
 import socket
-import time
 
 from .client import Client
 
@@ -10,7 +14,7 @@ class Server (Client):
     @details it heritate from the Server class
     '''
     def _exchange_data(self, data_to_send):
-        '''
+        '''$
         @brief Internal method to handle data exchange with the client.
 
         @details Listen, accept a connection, receive data, and send a param as response.
@@ -35,7 +39,7 @@ class Server (Client):
         
         @detail called once to retrieve the private IP of the host
 
-        @info MacOs: https://stackoverflow.com/questions/69937085/socket-gethostbyname-fails-on-macos
+        @note MacOs: https://stackoverflow.com/questions/69937085/socket-gethostbyname-fails-on-macos
         
         @return private IP
         '''
@@ -51,7 +55,7 @@ class Server (Client):
         '''
         @brief initialise the server socket
         
-        @detail it is called only once and when the connection to the client is made,
+        @details it is called only once and when the connection to the client is made,
             the socket is saved inside the instance
         
         @return enemy name

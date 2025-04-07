@@ -1,4 +1,8 @@
+'''
+@file terminalHandler.py
 
+@brief file that hold the Terminal class and all the logic attached
+'''
 
 from asset import Coordinate, CoordinateException, CoordinateOutOfBound, Content
 from network import NetRole
@@ -9,6 +13,9 @@ import os
 import socket
 
 class Terminal:
+    '''
+    @brief class that is used to get and diplay the informations inside the user terminal
+    '''
 
     TIME_ERROR = 2 
 
@@ -20,6 +27,8 @@ class Terminal:
         @brief input function for player role
 
         @details player role can only be "host" or "join"
+
+        @return NetRole with the role selcted by the user
         '''
         while True:
             s = input("Enter your role (Join or Host): ")
@@ -35,6 +44,14 @@ class Terminal:
     
         
     def get_host_ip(self):
+        '''
+        @brief input method to get the IP address of the host
+        
+        @details only used by a "clent" role to be able to join the Host
+                check if the input complied with the ipv4 address format
+
+        @return string with ipv4 format
+        '''
         while True:
             s = input("Entrez l'IP de l'hôte (ex: 192.168.1.42): ").strip()
             try:
@@ -48,11 +65,11 @@ class Terminal:
         '''
         @brief input method to get a grid coordinate
         
-        @details Ask for a coordinate and can print the grid on top
+        @details Ask for a coordinate and can display the grid and some passed string on top
 
         @param grid Grid object where the enter coordinate must exist
 
-        @param message message to print befor the input (Default None)
+        @param message message to display in terminal before the input (Default None)
 
         @param print_grid if enabled the passed grid will be print before the input
         '''
@@ -138,7 +155,7 @@ class Terminal:
         '''
         @brief output method to print a string in the terminal
         
-        @param string string to print
+        @param string string to display in terminal
         
         @param clear if enabled will clear the terminal befor ptint
         '''

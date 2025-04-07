@@ -1,0 +1,24 @@
+# --- Entrée/Sortie ---
+OUTPUT_DIRECTORY       = _doxygen
+INPUT                  = .
+RECURSIVE              = YES
+FILE_PATTERNS          = *.py
+EXTENSION_MAPPING      = py
+
+# --- Extraction ---
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_INIT_CODE      = YES
+
+# --- Documentation en style C++ pour Python ---
+OPTIMIZE_OUTPUT_JAVA   = YES
+
+# --- Documentation ---
+GENERATE_HTML          = YES
+GENERATE_LATEX         = YES
+
+# --- Divers ---
+QUIET                  = NO
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES

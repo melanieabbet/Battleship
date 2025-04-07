@@ -1,9 +1,14 @@
+'''
+@file client.py
+
+@brief file with the Client class
+'''
 import socket 
 import time
 
 class Client:
     '''
-    @brief the clien class deal with the socket connection as client
+    @brief the client class deal with the socket connection as client
     '''
 
 
@@ -36,6 +41,9 @@ class Client:
                 s.close()
     
     def set_host(self, host_ip):
+        '''
+        @brief set the ip of the host of the game
+        '''
         self.host = host_ip
 
     def connect(self):
