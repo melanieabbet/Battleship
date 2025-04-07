@@ -205,7 +205,34 @@ class Terminal:
             #self.message(repr(grid), clear=False)
             return repr(grid)
 
-        
+    def print_named_grid(self, *named_grids):
+        '''
+        @brief output method used to print grid side by side
+
+        @details do not print in terminal but return a string ready to be printed
+
+        @note centrer un text: https://www.w3schools.com/python/ref_string_center.asp
+   
+        '''
+        SPACING = 5
+        space_string = " " * SPACING
+
+        # use repr(grid) and split each grid in line
+        lines_per_grid = [repr(grid).split("\n") for _, grid in named_grids]
+        grid_widths = len(lines_per_grid[0][0]) # Same grids so same lenght
+
+        # Add name
+        header = space_string.join(name.center(grid_widths) for name, _ in named_grids)
+        output = header + "\n"
+
+        # Construct final text
+        i = 0
+        while i < len(lines_per_grid[0]):  # Same grids so same height
+            line = space_string.join(grid[i] for grid in lines_per_grid) # join different grids line together
+            output += line + "\n"
+            i += 1 
+
+        return output    
     
     def clear(self):
         '''

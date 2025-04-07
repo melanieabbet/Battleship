@@ -26,6 +26,7 @@ class Player:
         self.terminal = Terminal()
         self.grid = Grid(9)
         self.opponent_grid = Grid(9)
+        self.opponent_name = {}
 
         #boat init
         a = Boat(2)
@@ -70,7 +71,7 @@ class Player:
             self.connect.set_host(host_ip)
 
         opponent = self.connect.first_connect(self.name)
-        self.opponent = opponent
+        self.opponent_name = opponent
         self.terminal.message(f"Your opponent is: {opponent}")
 
 
@@ -98,8 +99,7 @@ class Player:
         @return Coordinate
         '''
         #message is the string representing both grid
-        #TODO add name on grid
-        message = self.terminal.print_grid(self.grid, self.opponent_grid)
+        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
         return self.terminal.get_coordinate(self.grid, message=message, print_grid=False)
     
 
@@ -209,8 +209,7 @@ class Player:
         '''
         @brief method to print grids of the player and his opponent
         '''
-        #TODO should pass the name of grid
-        message = self.terminal.print_grid(self.grid, self.opponent_grid)
+        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
         self.terminal.message(message)
         
     def gameover(self):
