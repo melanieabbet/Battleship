@@ -87,7 +87,23 @@ Enter 2 coordinates that follow: 1 remaining
 Enter a grid coordinate:  
 ```  
 
-Once all ships are placed, the rounds begin...  
+Once all ships are placed, the rounds begin...
+```bash  
+            Arthur                            Mélanie            
+[\][A][B][C][D][E][F][G][H][I]     [\][A][B][C][D][E][F][G][H][I]
+[1] ·  ·  ·  ·  ·  ·  ·  ·  ·      [1] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[2] ·  □  ·  ·  ·  ·  ·  ·  ·      [2] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[3] ·  □  ·  ·  ·  ·  ·  ·  ·      [3] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[4] ·  □  ·  ·  ·  ·  ·  ·  ·      [4] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[5] ·  □  ·  □  □  □  ·  ·  ·      [5] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[6] ·  ·  ·  ·  ·  ·  ·  ·  ·      [6] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[7] ·  ·  ·  ·  ·  ·  ·  ·  ·      [7] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[8] ·  ·  ·  ·  ·  ·  ·  ·  ·      [8] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[9] ·  ·  ·  ·  ·  ·  ·  ·  ·      [9] ·  ·  ·  ·  ·  ·  ·  ·  · 
+     
+
+Enter a grid coordinate:g6 
+```  
 
 ## Round  
 
@@ -95,20 +111,32 @@ Each turn, players enter the coordinates of their attack.
 After all players have entered their coordinates, the results are displayed on the grids, and a new round starts.  
 
 ```bash  
-            arthur                              melanie              
-[\][A][B][C][D][E][F][G][H][I]     [\][A][B][C][D][E][F][G][H][I]  
-[1] □  ·  ·  ·  ·  ·  ·  ·  ·      [1] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[2] □  ·  ·  ·  ·  ·  ·  ·  ·      [2] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[3] ·  ·  ·  ·  ·  ·  ·  ·  ·      [3] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[4] ·  ·  ·  ·  ·  ·  ·  ·  ·      [4] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[5] ·  ·  ·  ·  ·  ·  ·  ·  ·      [5] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[6] ·  ·  ·  ·  ·  ·  ·  ·  ·      [6] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[7] ·  ·  ·  ·  ·  ·  ·  ·  ·      [7] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[8] ·  ·  ·  ·  ·  ·  ·  ·  ·      [8] ·  ·  ·  ·  ·  ·  ·  ·  ·  
-[9] ·  ·  ·  ·  ·  ·  ·  ·  ·      [9] ·  ·  ·  ·  ·  ·  ·  ·  ·  
+        Arthur                                Mélanie            
+[\][A][B][C][D][E][F][G][H][I]     [\][A][B][C][D][E][F][G][H][I]
+[1] ·  ·  ·  O  ·  ·  □  ·  ·      [1] ·  ·  X  X  X  O  ·  ·  · 
+[2] O  O  ·  ·  ·  ·  □  O  ·      [2] ·  ·  ·  ·  ·  ·  ·  ·  X 
+[3] ·  ·  ·  ·  ·  ·  X  ·  ·      [3] ·  ·  ·  ·  ·  ·  ·  ·  X 
+[4] ·  ·  O  ·  ·  ·  ·  ·  ·      [4] O  ·  O  ·  ·  ·  ·  O  X 
+[5] ·  ·  X  X  □  □  ·  ·  O      [5] ·  ·  ·  ·  ·  O  ·  ·  O 
+[6] ·  O  ·  ·  ·  ·  ·  ·  ·      [6] ·  ·  ·  ·  ·  ·  ·  O  · 
+[7] ·  ·  ·  ·  ·  ·  ·  ·  ·      [7] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[8] ·  ·  O  ·  ·  ·  O  ·  ·      [8] ·  ·  ·  ·  ·  ·  ·  ·  · 
+[9] ·  O  ·  ·  ·  O  ·  ·  ·      [9] ·  ·  ·  ·  O  ·  ·  ·  · 
+     
 
-Enter a grid coordinate: a4  
-```  
+Enter a grid coordinate:i1
+``` 
+
+After each turn, the gris is updated:
+
+### Grid Symbols
+
+|Square symbols |Content   |
+|---------------|----------|
+|```□```        | Boat     |
+|```X```        |Hit Boat  |
+|```O```        |Miss      |
+|```.```        |Watter    |
 
 ## Win Condition  
 
