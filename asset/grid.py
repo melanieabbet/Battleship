@@ -10,7 +10,7 @@ class Grid:
     '''
     @brief The grid is used as the game board
 
-    @details The grid is basicaly a dictionary with key as coordinate and value as Cell
+    @details The grid is basically a dictionary with key as coordinate and value as Cell
     '''
     def __init__(self, size):
         '''
@@ -94,7 +94,7 @@ class Grid:
         
         @return True if a Boat at the passed Coordinate
         
-        @return false if no Boat at the passed Coordinate
+        @return False if no Boat at the passed Coordinate
         '''
         if cell :=self.grid[coor]:
             if cell.content == Content.BOAT:

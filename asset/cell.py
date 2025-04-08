@@ -21,17 +21,14 @@ class Content(Enum):
     HIT = 3
     MISS = 4
 
-
-
-
 class Cell:
     '''
     @brief the Cell asset is the base componenet of the Grid
     '''
     def __init__(self, content=Content.EMPTY):
         '''
-        @brief class constructo'''
-        # self.address = address
+        @brief class constructor
+        '''
         self.content = content
 
 

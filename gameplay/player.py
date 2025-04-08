@@ -3,7 +3,6 @@
 
 @brief file that hold the player class and all the logic attached
 '''
-import os
 from asset import Grid, Boat, Content, Coordinate
 from gameplay.terminalHandler import Terminal
 from network import Server, Client, NetRole
@@ -13,7 +12,7 @@ class Player:
     @brief class that deal with the player
     
     @details Each player will have an instance of this game
-            It hold all the method needed to play the game
+             It hold all the method needed to play the game
     '''
 
     def __init__(self, name):
@@ -29,12 +28,12 @@ class Player:
         self.opponent_name = {}
 
         #boat init
-        a = Boat(2)
-        # b = Boat(3)
-        # c = Boat(4)
+        # a = Boat(2)
+        b = Boat(3)
+        c = Boat(4)
         # d = Boat(5)
 
-        self.fleet = [a]
+        self.fleet = [b,c]
     
     def set_role(self):
         '''
@@ -48,7 +47,7 @@ class Player:
             
             # Is Server role free ?
             if self.connect.is_server_running():
-                self.terminal.message("Oups trop lent, un hôte existe déjà, vous serez un guest !")
+                self.terminal.message("Error while trying to host, be guest")
                 self.connect = Client()  # Change to client
                 self.role = NetRole.GUEST
             else:
@@ -127,7 +126,7 @@ class Player:
         message = f"Enemy: {enemy_result}, You: {result}"
         self.terminal.message(message)
 
-        # Vérifie si quelqu’un a gagné
+        #Check if someone won
         if result == "Game over":
             self.terminal.message("YOU WIN!")
             return "win"

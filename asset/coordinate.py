@@ -84,12 +84,12 @@ class Coordinate:
         @details the constructor only accept a string or two init number
                 Otherwise it raise a CoordinateException Error
                 If a string is passed, it is test if valid.
-                    -> if not it rais an error
+                    -> if not it raise an error
                 If two number ar passed they are converted (row 0 = row 1)
 
-        @param *arg Can be a string or two number
+        @param *arg can be a string or two numbers
         '''
-        e = CoordinateException(f"{args} Can not creat a Coordinate with this input")
+        e = CoordinateException(f"{args} Can not create a Coordinate with this input")
 
         if len(args)==1:
             #Args must be a string
@@ -296,9 +296,5 @@ class CoordinateOutOfBound(Exception):
     
 
 if __name__ == '__main__':
-    # a = Coordinate(0,0)
-    # b = a.right()
-    # c = a.down()
-    # d = a.up()
     import doctest
     doctest.testmod()
