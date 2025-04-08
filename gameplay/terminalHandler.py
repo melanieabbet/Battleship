@@ -111,7 +111,7 @@ class Terminal:
         i = 0
         while i<size:
             instruct = f"Enter {size} coordinates that follow: {size-len(return_coor)} remaining"
-            grid_string = self.print_grid(grid)
+            grid_string = self.print_named_grid(("Set your boat",grid))
             message = grid_string + "\n" + instruct
             if return_coor:
                 return_coor.sort()
@@ -159,48 +159,6 @@ class Terminal:
         if clear:
             self.clear()
         print(string)
-
-    def print_grid(self, *grid_list):
-        '''
-        @brief output method used to print grid side by side
-
-        @details do not print in terminal but return a string ready to be printed
-
-        @note   TODO probably a better way to do it (too much loop)
-                TODO add name of player on top
-        '''
-        SPACING = 5
-        space_string =" "*SPACING
-
-
-
-        nb_of_grid = len(grid_list)
-        if nb_of_grid>1:
-            grids = [None] * nb_of_grid
-
-            for index,grid in enumerate(grid_list):
-                grids[index] = repr(grid).split("\n")
-
-            return_string=""
-            i =0
-            while i<len(grids[0]):
-                for grid  in grids:
-                    #get same line in each grid
-                    line = grid[i]
-                    return_string+=line
-                    return_string += space_string
-                #remove last spacing and add back line
-                return_string = return_string[:-SPACING]
-                return_string+= "\n"
-                i+=1
-
-            #self.message(return_string, clear=False)
-            return return_string
-
-        else:
-            grid = grid_list[0]
-            #self.message(repr(grid), clear=False)
-            return repr(grid)
 
     def print_named_grid(self, *named_grids):
         '''
