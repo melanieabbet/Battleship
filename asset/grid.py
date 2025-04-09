@@ -44,7 +44,7 @@ class Grid:
         if key in self.grid.keys():   
             return self.grid[key]
         else:
-            raise CoordinateOutOfBound("Item not in grid")
+            raise CoordinateOutOfBound("Coordinate not in the Grid")
 
     
     def __iter__(self):

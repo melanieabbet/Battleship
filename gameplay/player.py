@@ -22,90 +22,84 @@ class Player:
 
         self.name = name
         self.role = NetRole.NONE
-        self.terminal = Terminal()
         self.grid = Grid(9)
-        self.opponent_grid = Grid(9)
-        self.opponent_name = {}
 
         #boat init
         # a = Boat(2)
         b = Boat(3)
-        c = Boat(4)
+        # c = Boat(4)
         # d = Boat(5)
 
-        self.fleet = [b,c]
+        self.fleet = [b]
     
-    def set_role(self):
+    def __iter__(self):
+        ''' 
+        @brief an iteration inside player will get
+            the boat one after the other
+        '''
+        return iter(self.fleet)
+    
+    def set_role(self, role):
         '''
         @brief set the role of the player
         
         @details can be Host or Guest
         '''
-        role = self.terminal.get_role()
-        if role == NetRole.HOST:
+        self.role = role
+
+        if self.is_host():
             self.connect = Server()
             
             # Is Server role free ?
             if self.connect.is_server_running():
-                self.terminal.message("Error while trying to host, be guest")
                 self.connect = Client()  # Change to client
                 self.role = NetRole.GUEST
-            else:
-                self.role = NetRole.HOST
-        elif NetRole.GUEST:
+                return "Error while trying to host, be guest" #raise error
+
+        else:
             self.connect = Client()
-            self.role= NetRole.GUEST
+      
+
+    def is_host(self):
+        '''
+        @brief return True if the player is the game host
+        '''
+        if self.role == NetRole.HOST:
+            return True
+        else:
+            return False
         
-    def lobby(self):
+    def get_own_ip(self):
+        '''
+        @brief return the ip address of the host as a string
+        '''
+        if self.is_host():
+            return self.connect.get_ip()
+        else:
+            return False
+
+        
+    def lobby(self, connection_ip):
         '''
         @brief when the player is waiting for opponent
         '''
         if self.role == NetRole.HOST:
-            ip = self.connect.get_ip()
-            self.connect.set_host(ip)
-            self.terminal.message(f"Your IP is: {ip}")
+            self.connect.set_host(connection_ip)
         else:
-            host_ip = self.terminal.get_host_ip()
-            self.connect.set_host(host_ip)
+            self.connect.set_host(connection_ip)
 
-        opponent = self.connect.first_connect(self.name)
-        self.opponent_name = opponent
-        self.terminal.message(f"Your opponent is: {opponent}")
-
-    def set_boat(self):
-        '''
-        @brief Use to put all the fleet on the Grid
-        
-        @details at the start of the game, each player have to put there boat on the Grid
-                This metode deal with it and return True when done
-        @return True
-        '''
-
-        for boat in self.fleet:
-            boat.set_boat(self.terminal.get_coordinate_array(boat.size, self.grid), self.grid)
-        self.fleet.sort() # so the weakest boat is at the end
-        return True
-    
-    def shoot(self):
-        '''
-        @brief set shoot by the player
-        
-        @return Coordinate
-        '''
-        #message is the string representing both grid
-        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
-         
-        return self.terminal.get_coordinate(self.grid, message=message)
-    
+        return self.connect.first_connect(self.name)
+   
 
     def round(self, coor):
         '''
         @brief round management for the player class
         
-        @details at each round of the game this method is called to deal
-                with the round data and the game status
+        @details connection method to send an recive he result from the other player
         
         @param coor Coordinate where the play is shooting at
+
+        @return the enemy result and the player result as string
         '''
         #Coordinate to string
         str_coor = str(coor)
@@ -117,27 +111,11 @@ class Player:
         
         #Get results of our shot
         result = self.connect.round_result(enemy_result)
-        self.update_opponent_grid(coor, result)
+        return enemy_result, result     
 
-        #Display updated fields
-        message = self.terminal.print_named_grid((self.name, self.grid), (self.opponent_name, self.opponent_grid))
-        self.terminal.message(message)
-
-        message = f"Enemy: {enemy_result}, You: {result}"
-        self.terminal.message(message)
-
-        #Check if someone won
-        if result == "Game over":
-            self.terminal.message("YOU WIN!")
-            return "win"
-        elif enemy_result == "Game over":
-            self.terminal.message("YOU LOST! GAME OVER.")
-            return "lose"
-        return "continue"
-
-    def update_opponent_grid(self, coor, result):
+    def update_grid(self, coor, result):
         '''
-        @brief Update the opponent's grid with the result of our shot.
+        @brief Update the player's grid with the result of a shot.
         
         @param coordinate The coordinate where the shot was made.
 
@@ -146,9 +124,9 @@ class Player:
         @details This will mark the cell on the opponent's grid with the result of the shot.
         '''
         if result == "Hit" or  result == "Hit and sunk !" or result == "Game over":
-            self.opponent_grid[coor].content = Content.HIT
+            self.grid[coor].content = Content.HIT
         elif result == "Missed":
-            self.opponent_grid[coor].content = Content.MISS    
+            self.grid[coor].content = Content.MISS    
         
     def get_hit(self, coordinate):
         '''
@@ -167,7 +145,7 @@ class Player:
                 if self.gameover():
                     message = "Game over"
                 else:
-                    message ="Hit and sunk !"
+                    message ="Hit and sunk!"
                 
             else:
                 message = "Hit"
