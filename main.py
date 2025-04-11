@@ -69,9 +69,9 @@ class Game():
                 engine.message("YOU LOST! GAME OVER.")
                 time.sleep(Game.END_OF_ROUND_DELAY)
                 break
-            else:
-                engine.message(f"Enemy: {enemy_result}, You: {result}")
-                time.sleep(Game.END_OF_ROUND_DELAY)
+            # else:
+            #     engine.message(f"Enemy: {enemy_result}, You: {result}")
+            #     time.sleep(Game.END_OF_ROUND_DELAY)
          
 
     def end_game(self, player_result, enemy_result):

@@ -25,12 +25,12 @@ class Player:
         self.grid = Grid(9)
 
         #boat init
-        # a = Boat(2)
+        a = Boat(2)
         b = Boat(3)
-        # c = Boat(4)
-        # d = Boat(5)
+        c = Boat(4)
+        d = Boat(5)
 
-        self.fleet = [b]
+        self.fleet = [a, b, c, d]
     
     def __iter__(self):
         ''' 
@@ -69,6 +69,7 @@ class Player:
         else:
             return False
         
+              
     def get_own_ip(self):
         '''
         @brief return the ip address of the host as a string
@@ -117,7 +118,7 @@ class Player:
         '''
         @brief Update the player's grid with the result of a shot.
         
-        @param coordinate The coordinate where the shot was made.
+        @param coor The coordinate where the shot was made.
 
         @param result The result of the shot (Hit/Miss).
         
@@ -125,8 +126,17 @@ class Player:
         '''
         if result == "Hit" or  result == "Hit and sunk !" or result == "Game over":
             self.grid[coor].content = Content.HIT
+
+            #special case where cell coordinate are returned inside result
+        elif result.startswith("Sunk"):
+            coor_array = result.split(";")[1] #get all string coordinate
+            coor_array = coor_array.split(",")
+            for c in coor_array:
+                self.grid[Coordinate(c)].set_sink()
+
         elif result == "Missed":
-            self.grid[coor].content = Content.MISS    
+            self.grid[coor].set_miss()
+
         
     def get_hit(self, coordinate):
         '''
@@ -139,19 +149,18 @@ class Player:
         cell = self.grid[coordinate]
         
         if cell.content == Content.BOAT:
-            cell.content = Content.HIT
-            if len(self.fleet)!= self.check_fleet():
-
+            cell.set_hit()
+            if coor_str := self.check_fleet():
                 if self.gameover():
                     message = "Game over"
                 else:
-                    message ="Hit and sunk!"
-                
+                    #return the coordinate where the sink boat is (as str sparate by ",")
+                    message =f"Sunk;{coor_str}" 
             else:
                 message = "Hit"
 
         elif cell.content == Content.EMPTY:
-            cell.content = Content.MISS
+            cell.set_miss()
             message = "Missed"
 
         elif cell.content == Content.MISS:
@@ -160,6 +169,7 @@ class Player:
         elif cell.content == Content.HIT:
             message = "better safe than sorry..."
         return message
+    
 
     def check_fleet(self):
         '''
@@ -174,10 +184,13 @@ class Player:
         boat = self.fleet[-1]
         if boat.is_alive and not boat.health():
             #boat is sinking
+            coor_str = boat.sink(self.grid)
             self.fleet.pop() #remove last boat
+            return coor_str
+        else:
+            return None
         
-        return len(self.fleet)
-         
+     
     def gameover(self):
         '''
         @brief test the gameover condition

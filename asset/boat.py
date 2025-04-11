@@ -26,6 +26,7 @@ class Boat:
         '''
 
         if len(coor_array)== self.size:
+            self.corr_array = coor_array
             for index, coor in enumerate(coor_array):
                 self.cells[index] = grid[coor]
                 self.cells[index].content = Content.BOAT
@@ -45,11 +46,18 @@ class Boat:
                 hp +=1
         return hp
     
-    def sink(self):
+    def sink(self, grid):
         '''
         @brief call to kill the Boat
+
+        @return the coordinates of the sinked boat (as a str)
         '''
-        self.is_alive = False
+        return_str =""
+        for coor in self.corr_array:
+            grid[coor].set_sink()
+            return_str += f"{repr(coor)},"
+        return_str = return_str[:-1] #remove lat coma
+        return return_str
     
     def __lt__(self, other):
         '''
