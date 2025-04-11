@@ -19,7 +19,6 @@ class Player:
         '''
         @brief class constructor
         '''
-
         self.name = name
         self.role = NetRole.NONE
         self.grid = Grid(9)
@@ -124,10 +123,10 @@ class Player:
         
         @details This will mark the cell on the opponent's grid with the result of the shot.
         '''
-        if result == "Hit" or  result == "Hit and sunk !" or result == "Game over":
+        if result == "Hit" or result == "Game over":
             self.grid[coor].content = Content.HIT
 
-            #special case where cell coordinate are returned inside result
+        #Special case where cell coordinate are returned inside result
         elif result.startswith("Sunk"):
             coor_array = result.split(";")[1] #get all string coordinate
             coor_array = coor_array.split(",")
