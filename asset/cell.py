@@ -20,6 +20,7 @@ class Content(Enum):
     BOAT = 2
     HIT = 3
     MISS = 4
+    SINK = 5
 
 class Cell:
     '''
@@ -42,6 +43,8 @@ class Cell:
             return f" X "
         elif self.content == Content.MISS:
             return f" O "
+        elif self.content == Content.SINK:
+            return f" † "
     
     def set_boat(self):
         '''
@@ -55,6 +58,17 @@ class Cell:
         '''
         self.content = Content.HIT
 
+    def set_sink(self):
+        '''
+        @brief Set the cell content as sink boat
+        '''
+        self.content = Content.SINK
+
+    def set_miss(self):
+        '''
+        @brief Set the cell content as Miss
+        '''
+        self.content = Content.MISS
         
     
     

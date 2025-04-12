@@ -187,7 +187,13 @@ class Terminal:
             output += line + "\n"
             i += 1 
 
-        return output    
+        return output  
+
+    def get_name(self):
+        '''
+        @brief input method to get the player name
+        '''
+        return input("Enter your name:")  
     
     def clear(self):
         '''
