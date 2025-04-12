@@ -46,17 +46,29 @@ class Game():
         #player.set_boat()
 
         # 4) game start
+
+        #Keep Track
+        enemy_result = None
+        result = None
+        last_enemy_shot = None
+        last_player_shot = None
+
         while True:
             #print grids
             grids_disp = engine.print_named_grid(
                 (player.name, player.grid),
                 (enemy.name, enemy.grid))
+            #If results exist print them
+            if enemy_result is not None and result is not None and last_enemy_shot is not None and last_player_shot is not None:
+                grids_disp += f"Enemy: {last_enemy_shot} - {enemy_result}, You: {last_player_shot} - {result}"
             #Player shoot
             coor = engine.get_coordinate(player.grid, message=grids_disp)
 
             #Shoot results
             enemy_result, result = player.round(coor)
             enemy.update_grid(coor, result)
+            last_player_shot = coor
+            last_enemy_shot = player.last_enemy_shot
 
             round_result = self.end_game(result, enemy_result)
 

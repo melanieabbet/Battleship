@@ -22,14 +22,15 @@ class Player:
         self.name = name
         self.role = NetRole.NONE
         self.grid = Grid(9)
+        self.last_enemy_shot = None
 
         #boat init
         a = Boat(2)
-        b = Boat(3)
-        c = Boat(4)
-        d = Boat(5)
+        b = Boat(1)
+        #c = Boat(4)
+        #d = Boat(5)
 
-        self.fleet = [a, b, c, d]
+        self.fleet = [a,b]
     
     def __iter__(self):
         ''' 
@@ -104,6 +105,7 @@ class Player:
         #Coordinate to string
         str_coor = str(coor)
         enemy_shoot = self.connect.open_fire(str_coor)
+        self.last_enemy_shot = enemy_shoot
 
         #String to Coordinate
         enemy_shoot = Coordinate(enemy_shoot)
@@ -128,7 +130,7 @@ class Player:
 
         #Special case where cell coordinate are returned inside result
         elif result.startswith("Sunk"):
-            coor_array = result.split(";")[1] #get all string coordinate
+            coor_array = result.split(":")[1] #get all string coordinate
             coor_array = coor_array.split(",")
             for c in coor_array:
                 self.grid[Coordinate(c)].set_sink()
@@ -154,7 +156,7 @@ class Player:
                     message = "Game over"
                 else:
                     #return the coordinate where the sink boat is (as str sparate by ",")
-                    message =f"Sunk;{coor_str}" 
+                    message =f"Sunk:{coor_str}" 
             else:
                 message = "Hit"
 
